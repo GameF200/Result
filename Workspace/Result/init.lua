@@ -6,7 +6,7 @@
 
 -- A Rust-inspired Result type for Roblox Luau
 -- @author super_sonic
--- @version 1.0.0
+-- @version 1.1.0
 
 
 

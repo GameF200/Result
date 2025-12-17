@@ -73,4 +73,29 @@ function Result.unwrap_or<T, E>(self: Result<T, E>, default: T): T
 	end
 end
 
+function Result.unwrap_or_function<T, E>(self: Result<T, E>, func: (E) -> T): T
+	if self.tag == "Err" then
+		return func(self.error)
+	else
+		return self.value
+	end
+end
+
+function Result.and_then<T, E, U>(self: Result<T, E>, fn: (T) -> Result<U, E>): Result<U, E>
+	if self.tag == "Ok" then
+		return fn(self.value)
+	else
+		return Result.Err(self.error)
+	end
+end
+
+function Result.try<E>(fn: () -> (any, E?)): Result<any, E>
+	local ok, result_or_error = pcall(fn)
+	if not ok then
+		return Result.Err(result_or_error)
+	end
+	return Result.Ok(result_or_error)
+end
+
+
 return Result
